@@ -12,7 +12,7 @@ const padding = 2;
 
 const widget = new ListWidget();
 if (isDarkTheme) {
- widget.backgroundColor = new Color('#1C1C1E');; 
+ widget.backgroundColor = new Color('#1C1C1E');
 }
 widget.setPadding(padding, padding, padding, padding);
 
@@ -88,7 +88,7 @@ async function getTokenPriceInfoBitvavo(symbol) {
   const url='https://api.binance.com/api/v3/ticker/price?symbol='+symbol+'USDT'
   const req = new Request(url)
   const apiResult = await req.loadJSON() 
-  return { price: apiResult[0].price, grow: false };
+  return { price: apiResult.price, grow: false };
 }
 
 async function loadImage(imgUrl) {

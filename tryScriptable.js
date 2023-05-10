@@ -28,15 +28,19 @@ if (isDarkTheme) {
 
 async function buildWidget() {
     const rubicImage = await loadImage('https://rubic.exchange/assets/images/widget/rubic.png');
+    const stacksImage = await loadImage('https://s2.coinmarketcap.com/static/img/coins/64x64/4847.png');
     const ethereumImage = await loadImage('https://rubic.exchange/assets/images/widget/ethereum.png');
   
     const rubicPriceInfo = await getTokenPriceInfo('rubic');
+    const stacksPriceInfo = await getTokenPriceInfoBitvavo('STX');
     const ethereumPriceInfo = await getTokenPriceInfo('ethereum');
   
     const roundedRubicPrice = Math.round(rubicPriceInfo.price * 1000) / 1000;
+    const roundedStacksPrice = Math.round(stacksPriceInfo.price * 1000) / 1000;
     const roundedEthereumPrice = Math.round(ethereumPriceInfo.price);
   
     addCrypto(rubicImage, 'RBC', `$${roundedRubicPrice}`, rubicPriceInfo.grow);
+    addCrypto(stacksImage, 'STX', `$${roundedStacksPrice}`, stacksPriceInfo.grow);
     addCrypto(ethereumImage, 'ETH', `$${roundedEthereumPrice}`, ethereumPriceInfo.grow);
 }
 
@@ -78,6 +82,13 @@ async function getTokenPriceInfo(tokenId) {
   const req = new Request(url)
   const apiResult = await req.loadJSON() 
   return { price: apiResult[0].current_price, grow: apiResult[0].price_change_24h > 0 };
+}
+
+async function getTokenPriceInfoBitvavo(symbol) {
+  const url=`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
+  const req = new Request(url)
+  const apiResult = await req.loadJSON() 
+  return { price: apiResult[0].price, grow: false };
 }
 
 async function loadImage(imgUrl) {

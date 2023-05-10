@@ -39,9 +39,9 @@ async function buildWidget() {
     const roundedStacksPrice = Math.round(stacksPriceInfo.price * 1000) / 1000;
     const roundedEthereumPrice = Math.round(ethereumPriceInfo.price);
   
-    addCrypto(rubicImage, 'RBC', `$${roundedRubicPrice}`, rubicPriceInfo.grow);
-    addCrypto(stacksImage, 'STX', `$${roundedStacksPrice}`, stacksPriceInfo.grow);
-    addCrypto(ethereumImage, 'ETH', `$${roundedEthereumPrice}`, ethereumPriceInfo.grow);
+    addCrypto(rubicImage, 'RBC', '$'+roundedRubicPrice, rubicPriceInfo.grow);
+    addCrypto(stacksImage, 'STX', '$'+roundedStacksPrice, stacksPriceInfo.grow);
+    addCrypto(ethereumImage, 'ETH', '$'+roundedEthereumPrice, ethereumPriceInfo.grow);
 }
 
 function addCrypto(image, symbol, price, grow) {
@@ -78,14 +78,14 @@ function addCrypto(image, symbol, price, grow) {
 }
 
 async function getTokenPriceInfo(tokenId) {
-  const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${tokenId}`;
+  const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids='+tokenId;
   const req = new Request(url)
   const apiResult = await req.loadJSON() 
   return { price: apiResult[0].current_price, grow: apiResult[0].price_change_24h > 0 };
 }
 
 async function getTokenPriceInfoBitvavo(symbol) {
-  const url=`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}USDT`
+  const url='https://api.binance.com/api/v3/ticker/price?symbol='+symbol+'USDT'
   const req = new Request(url)
   const apiResult = await req.loadJSON() 
   return { price: apiResult[0].price, grow: false };
